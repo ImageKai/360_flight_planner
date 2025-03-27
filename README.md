@@ -70,6 +70,7 @@ python flight_plan_generation_csv_with_output.py \
    - rename
 
 2. Upload the `.kmz` file to your UAV system.
+
 link: https://www.waypointmap.com/Home/Tutorial
 ---
 
