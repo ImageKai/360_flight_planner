@@ -53,13 +53,6 @@ pip install pandas
 
 ### Run the script from the command line:
 
-```bash
-python flight_plan_generation_csv_with_output.py \
-    --points flight_plan_points.csv \
-    --parameter flight_plan_parameters.csv \
-    --output path/to/your/waylines.wpml
-```
-
 Example:
 
 ```bash
