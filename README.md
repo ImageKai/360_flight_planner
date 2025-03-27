@@ -31,13 +31,13 @@ This file contains the **geographic coordinates** for:
 This file provides numeric parameters used to define the flight pattern.
 
 #### Format:
-| parameter           | value |
-|---------------------|-------|
-| radius              | 24    |
-| num_points_per_circle | 20  |
-| executeHeight       | 15    |
-| waypointSpeed       | 4     |
-
+| parameter           | value |  unit  |
+|---------------------|-------|--------|
+| radius              | 24    |  meter |
+| num_points_per_circle | 20  | points |
+| executeHeight       | 15    |  meter |
+| waypointSpeed       | 4     |  m/s   |
+|gimbalRotateAngel    | -32   | degree |
 ---
 
 ## 🚀 How to Run the Script
