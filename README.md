@@ -2,7 +2,7 @@
 # Flight Plan Generator
 
 This script generates a UAV flight plan using coordinates and flight parameters provided in CSV format.
-Model: DJI Mini 4 Pro, Marvic 3 Pro, Air 3, Any Waypoint Drone. 
+- Model: DJI Mini 4 Pro, Marvic 3 Pro, Air 3, Any Waypoint Drone. 
 
 ---
 
@@ -72,6 +72,7 @@ python flight_plan_generation_csv_with_output.py \
 2. Upload the `.kmz` file to your UAV system.
 
 link: https://www.waypointmap.com/Home/Tutorial
+
 ---
 
 ## ✍️ Notes
