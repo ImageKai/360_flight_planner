@@ -3,8 +3,11 @@
 
 This script generates a UAV flight plan using coordinates and flight parameters provided in CSV format.
 - Model: DJI Mini 4 Pro, Marvic 3 Pro, Air 3, Any Waypoint Drone. 
-
----
+- python version == 3.8
+  pip install 
+- pandas
+- utm
+- argparse
 
 ## 📄 Input Files
 
