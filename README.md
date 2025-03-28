@@ -12,7 +12,7 @@ This script generates a UAV flight plan using coordinates and flight parameters 
 
 Install the required packages using pip:
 
-```bash
+
 pip install pandas utm argparse
 
 
