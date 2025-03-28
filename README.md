@@ -51,16 +51,6 @@ This file provides numeric parameters used to define the flight pattern.
 |gimbalRotateAngel    | -32   | degree |
 ---
 
-## 🚀 How to Run the Script
-
-### Requirements:
-- Python 3.x
-- `pandas` library
-
-You can install pandas via pip if needed:
-```bash
-pip install pandas
-```
 
 ### Run the script from the command line:
 
