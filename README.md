@@ -47,7 +47,7 @@ This file provides numeric parameters used to define the flight pattern.
 | radius              | 24    |  meter |
 | num_points_per_circle | 20  | points |
 | executeHeight       | 15    |  meter |
-| waypointSpeed       | 4     |  m/s   |
+| waypointSpeed       | 2.5     |  m/s   |
 |gimbalRotateAngel    | -32   | degree |
 ---
 
