@@ -31,6 +31,7 @@ This file contains the **geographic coordinates** for:
 | start_point  | 27.760089  | -82.226316   |
 | center_point | 27.760034  | -82.226171   |
 | ...          | ...        | ...          |
+| center_point | 27.759242  | -82.226172   |
 | end_point    | 27.760089  | -82.226316   |
 
 - `type` can be `start_point`, `center_point`, or `end_point`.
