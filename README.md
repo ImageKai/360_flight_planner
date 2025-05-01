@@ -20,7 +20,8 @@ pip install pandas utm argparse
 
 ### 1. `flight_plan_points.csv`
 
-This file contains the two section, 
+This file contains the two section:
+
 First section is to provides numeric parameters used to define the flight pattern
 
 #### Format:
