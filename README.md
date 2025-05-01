@@ -53,7 +53,7 @@ Second section is **geographic coordinates** for:
 Example:
 
 ```bash
-python flight_plan_generation_csv_with_output.py \
+python flight_plan_generation_args.py \
     --csv flight_plan_points.csv \
     --output wpmz/waylines.wpml
 ```
