@@ -10,6 +10,7 @@ import argparse
 import sys
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom 
+import io
 import utm
 
 # Define the wpml namespace
@@ -343,33 +344,39 @@ def waypoint_heading_angle_generation(waypoints, center):
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description="Generate flight plan from CSV inputs.")
-parser.add_argument('--points', type=str, required=True, help='Path to the points CSV file')
-parser.add_argument('--parameter', type=str, required=True, help='Path to the parameters CSV file')
+parser.add_argument('--csv', type=str, required=True, help='Path to the parameters CSV file')
 parser.add_argument('--output', type=str, required=True, help='Path to the output WPML file')
 
 args = parser.parse_args()
-points_csv_path = args.points
-parameters_csv_path = args.parameter
+csv_path = args.csv
+
 output_path = args.output
 
+with open(csv_path, "r") as f:
+    lines = f.readlines()
 
-# Load coordinates from CSV
-df = pd.read_csv(points_csv_path)
+split_index = lines.index('\n')  # Find blank line separating sections
+
+# Parse parameters
+param_lines = lines[:split_index]
+param_df = pd.read_csv(io.StringIO(''.join(param_lines)))
+param_dict = dict(zip(param_df['parameter'], param_df['value']))
+
+# Parse points
+point_lines = lines[split_index + 1:]
+df = pd.read_csv(io.StringIO(''.join(point_lines)))
+
 # Extract points
 start_point = tuple(df[df['type'] == 'start_point'][['latitude', 'longitude']].iloc[0])
 end_point = tuple(df[df['type'] == 'end_point'][['latitude', 'longitude']].iloc[0])
 center_points = [tuple(x) for x in df[df['type'] == 'center_point'][['latitude', 'longitude']].values]
 
-# Load parameters from CSV
-param_df = pd.read_csv(parameters_csv_path)
-param_dict = dict(zip(param_df['parameter'], param_df['value']))
-
 # Extract parameters
-radius = float(param_dict['radius'])  # radius in meters
-num_points_per_circle = int(param_dict['num_points_per_circle'])  # Points per circle
-executeHeight = float(param_dict['executeHeight'])  # meters
-waypointSpeed = float(param_dict['waypointSpeed'])  # meters/second
-gimbalRotateAngel = int(param_dict['gimbalRotateAngel'])
+radius = float(param_dict['radius'])
+num_points_per_circle = int(radius)
+executeHeight = float(param_dict['executeHeight'])
+waypointSpeed = 2.5
+gimbalRotateAngel = -int(90 - math.degrees(math.atan(radius / executeHeight)))
 
 # === Your original script continues here ===
 
