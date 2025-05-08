@@ -30,9 +30,10 @@ First section is to provides numeric parameters used to define the flight patter
 | radius              | 24    |  meter |
 | executeHeight       | 15    |  meter |
 
+## Points csv file
+
 This CSV file defines key geographic points for UAV flight planning using Well-Known Text (WKT) format. The file includes the start point, center points for circular orbits, and an optional end point.
 
-## Points csv file
 
 | Column | Description |
 |--------|-------------|
