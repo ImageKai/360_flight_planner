@@ -16,7 +16,7 @@ Install the required packages using pip:
 pip install pandas utm argparse
 
 
-## 📄 Input File
+## 📄 Input Files
 
 ### 1. points csv file
 
@@ -56,7 +56,6 @@ This CSV file defines key geographic points for UAV flight planning using Well-K
 
 ## Example
 
-```csv
 |WKT|id|
 |------------------------------------------|---|
 |POINT (-82.2263457448251 27.7600793304701)| 1 |
