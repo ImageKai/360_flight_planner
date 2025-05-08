@@ -234,14 +234,14 @@ def create_point_text(placemark, df_row, actions=None):
     # Handle actions based on the action type
     if row['action'] == 1:
         create_action_group(placemark, '1', row['PointID'], row['actionID']-1, "startRecord")
-        create_action_group(placemark, "2", row['PointID'], row['actionID'], "gimbalEvenlyRotate", row['gimbalRotateAngel'])
+        create_action_group(placemark, "2", row['PointID'], row['actionID'], "gimbalEvenlyRotate", row['gimbalRotateAngle'])
     
     elif row['action'] == 2:
         print(1)
         create_action_group(placemark, '1', row['PointID'], row['actionID']-1, "stopRecord")
-        create_action_group(placemark, "2", row['PointID'], row['actionID'], "gimbalEvenlyRotate", row['gimbalRotateAngel'])
+        create_action_group(placemark, "2", row['PointID'], row['actionID'], "gimbalEvenlyRotate", row['gimbalRotateAngle'])
     elif row['action'] == 0:
-        create_action_group(placemark, "2", row['PointID'], row['actionID'], "gimbalEvenlyRotate", row['gimbalRotateAngel'])
+        create_action_group(placemark, "2", row['PointID'], row['actionID'], "gimbalEvenlyRotate", row['gimbalRotateAngle'])
 
 
 
@@ -342,42 +342,50 @@ def waypoint_heading_angle_generation(waypoints, center):
         heading_angles.append(angle_deg)
     return heading_angles
 
+import argparse
+import pandas as pd
+import math
+from shapely.wkt import loads as wkt_loads
+
 # Set up argument parser
-parser = argparse.ArgumentParser(description="Generate flight plan from CSV inputs.")
-parser.add_argument('--csv', type=str, required=True, help='Path to the parameters CSV file')
+parser = argparse.ArgumentParser(description="Generate flight plan from separate parameter and point CSV files.")
+parser.add_argument('--points', type=str, required=True, help='Path to the points CSV file')
+parser.add_argument('--parameters', type=str, required=True, help='Path to the parameters CSV file')
 parser.add_argument('--output', type=str, required=True, help='Path to the output WPML file')
 
 args = parser.parse_args()
-csv_path = args.csv
-
+points_path = args.points
+parameter_path = args.parameters
 output_path = args.output
 
-with open(csv_path, "r") as f:
-    lines = f.readlines()
-
-split_index = lines.index('\n')  # Find blank line separating sections
-
-# Parse parameters
-param_lines = lines[:split_index]
-param_df = pd.read_csv(io.StringIO(''.join(param_lines)))
+# Load parameters CSV
+param_df = pd.read_csv(parameter_path)
 param_dict = dict(zip(param_df['parameter'], param_df['value']))
 
-# Parse points
-point_lines = lines[split_index + 1:]
-df = pd.read_csv(io.StringIO(''.join(point_lines)))
+# Load points CSV and classify types by ID
+df = pd.read_csv(points_path)
+print(df.columns)
 
-# Extract points
+df[['longitude', 'latitude']] = df['WKT'].apply(lambda wkt: pd.Series(wkt_loads(wkt).coords[0]))
+
+
+# Add a new column 'type' based on the 'id' column
+df['type'] = 'center_point'
+df.loc[df['id'] == 1, 'type'] = 'start_point'
+df.loc[df['id'] == 999, 'type'] = 'end_point'
+
+# Extract point sets
 start_point = tuple(df[df['type'] == 'start_point'][['latitude', 'longitude']].iloc[0])
 end_point = tuple(df[df['type'] == 'end_point'][['latitude', 'longitude']].iloc[0])
 center_points = [tuple(x) for x in df[df['type'] == 'center_point'][['latitude', 'longitude']].values]
 
 # Extract parameters
 radius = float(param_dict['radius'])
-num_points_per_circle = int(radius)
+num_points_per_circle = int(radius)  # You may adjust if needed
 executeHeight = float(param_dict['executeHeight'])
-waypointSpeed = 2.5
-gimbalRotateAngel = -int(90 - math.degrees(math.atan(radius / executeHeight)))
-
+waypointSpeed = 2.5  # Default value
+gimbalRotateAngle = -int(90 - math.degrees(math.atan(radius / executeHeight)))
+print(gimbalRotateAngle)
 # === Your original script continues here ===
 
 # Placeholder for actual flight plan logic (keep your logic below)
@@ -449,7 +457,7 @@ data_points = {
     'useStraightLine': use_straight_line,
     'action': actions,
     'actionID': actionID_generation(actions, num_groups),
-    'gimbalRotateAngel': gimbalRotateAngel
+    'gimbalRotateAngle': gimbalRotateAngle
 }
 # print(data_points)
 df = pd.DataFrame(data_points)
