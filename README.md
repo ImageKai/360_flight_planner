@@ -72,7 +72,8 @@ Example:
 
 ```bash
 python flight_plan_generation_args.py \
-    --csv flight_plan_points.csv \
+    --points points.csv \
+    --parameters parameters.csv \  
     --output wpmz/waylines.wpml
 ```
 ## 📦 How to Upload to UAV
