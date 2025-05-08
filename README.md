@@ -18,7 +18,7 @@ pip install pandas utm argparse
 
 ## 📄 Input File
 
-### 1. `flight_plan_points.csv`
+### 1. points csv file
 
 This file contains the two section:
 
@@ -30,22 +30,39 @@ First section is to provides numeric parameters used to define the flight patter
 | radius              | 24    |  meter |
 | executeHeight       | 15    |  meter |
 
-Second section is **geographic coordinates** for:
-- Start point
-- Center points (used for defining flight groups or paths)
-- End point
+This CSV file defines key geographic points for UAV flight planning using Well-Known Text (WKT) format. The file includes the start point, center points for circular orbits, and an optional end point.
 
-#### Format:
-| type         | latitude   | longitude    |
-|--------------|------------|--------------|
-| start_point  | 27.760089  | -82.226316   |
-| center_point | 27.760034  | -82.226171   |
-| ...          | ...        | ...          |
-| center_point | 27.759242  | -82.226172   |
-| end_point    | 27.760089  | -82.226316   |
+## Points csv file
 
-- `type` can be `start_point`, `center_point`, or `end_point`.
+| Column | Description |
+|--------|-------------|
+| `WKT`  | Coordinates in WKT `POINT (longitude latitude)` format |
+| `id`   | Unique identifier for each point. Special IDs are used to define flight roles (see below) |
 
+## Point Roles
+
+- **Start Point**:  
+  - `id = 1`  
+  - Specifies the UAV's starting location.
+
+- **Center Points**:  
+  - `id ≥ 2` and sequential  
+  - Used to define circular orbit centers for the flight path.
+
+- **End Point**:  
+  - `id = 999`  
+  - (Optional) Specifies the UAV's return or landing location. If not provided, it can default to the start point.
+
+## Example
+
+```csv
+WKT,id
+POINT (-82.2263457448251 27.7600793304701),1
+POINT (-82.2262361416445 27.7599842473691),2
+POINT (-82.2262342680859 27.7599439658583),3
+POINT (-82.2262319261376 27.7598886958783),4
+POINT (-82.2262300525789 27.7598563769918),5
+POINT (-82.2261700987024 27.760087761484),999
 
 
 ### Run the script from the command line:
