@@ -37,8 +37,8 @@ This CSV file defines key geographic points for UAV flight planning using Well-K
 
 | Column | Description |
 |--------|-------------|
-| `X`  | longitude |
-| `Y`  | latitude |
+| `X`  | Longitude |
+| `Y`  | Latitude |
 | `id`   | Unique identifier for each point. Special IDs are used to define flight roles (see below) |
 
 ## Point Roles
