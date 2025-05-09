@@ -71,7 +71,7 @@ Example:
 
 ```bash
 python flight_plan_generation_args.py \
-    --points points.csv \
+    --points waypoints.csv \
     --parameters parameters.csv \  
     --output wpmz/waylines.wpml
 ```
