@@ -345,7 +345,7 @@ def waypoint_heading_angle_generation(waypoints, center):
 import argparse
 import pandas as pd
 import math
-from shapely.wkt import loads as wkt_loads
+
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description="Generate flight plan from separate parameter and point CSV files.")
@@ -366,14 +366,27 @@ param_dict = dict(zip(param_df['parameter'], param_df['value']))
 df = pd.read_csv(points_path)
 print(df.columns)
 
-df[['longitude', 'latitude']] = df['WKT'].apply(lambda wkt: pd.Series(wkt_loads(wkt).coords[0]))
+df.rename(columns={'X': 'longitude', 'Y': 'latitude'}, inplace=True)
 
+# Ensure IDs are integers
+df['id'] = df['id'].astype(int)
 
-# Add a new column 'type' based on the 'id' column
+# Assign types based on ID
 df['type'] = 'center_point'
 df.loc[df['id'] == 1, 'type'] = 'start_point'
-df.loc[df['id'] == 999, 'type'] = 'end_point'
 
+if 999 in df['id'].values:
+    df.loc[df['id'] == 999, 'type'] = 'end_point'
+else:
+    # Duplicate start_point as end_point if 999 is missing
+    start_row = df[df['id'] == 1].iloc[0]
+    new_row = {
+        'longitude': start_row['longitude'],
+        'latitude': start_row['latitude'],
+        'id': 999,
+        'type': 'end_point'
+    }
+    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 # Extract point sets
 start_point = tuple(df[df['type'] == 'start_point'][['latitude', 'longitude']].iloc[0])
 end_point = tuple(df[df['type'] == 'end_point'][['latitude', 'longitude']].iloc[0])
@@ -389,7 +402,10 @@ print(gimbalRotateAngle)
 # === Your original script continues here ===
 
 # Placeholder for actual flight plan logic (keep your logic below)
-num_groups = len(center_points)
+if len(center_points) < 20:
+    num_groups = 20
+else: 
+    num_groups = len(center_points)
 latitudes = [start_point[0]]
 longitudes = [start_point[1]]
 group_numbers = [0]  # Start point's group number is 0
