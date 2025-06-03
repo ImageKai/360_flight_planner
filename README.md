@@ -29,6 +29,7 @@ First section is to provides numeric parameters used to define the flight patter
 |---------------------|-------|--------|
 | radius              | 24    |  meter |
 | executeHeight       | 15    |  meter |
+| flightSpeed         | 3     |   m/s  |
 
 ## Points csv file
 
