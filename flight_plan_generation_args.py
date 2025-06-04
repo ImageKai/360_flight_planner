@@ -396,7 +396,7 @@ center_points = [tuple(x) for x in df[df['type'] == 'center_point'][['latitude',
 radius = float(param_dict['radius'])
 num_points_per_circle = int(radius)  # You may adjust if needed
 executeHeight = float(param_dict['executeHeight'])
-waypointSpeed = float(param_dict['flightSpeed'])  # Default value
+waypointSpeed = float(param_dict['Speed'])  # Default value
 gimbalRotateAngle = -int(90 - math.degrees(math.atan(radius / executeHeight)))
 print(gimbalRotateAngle)
 # === Your original script continues here ===
