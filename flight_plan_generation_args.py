@@ -394,7 +394,10 @@ center_points = [tuple(x) for x in df[df['type'] == 'center_point'][['latitude',
 
 # Extract parameters
 radius = float(param_dict['radius'])
-num_points_per_circle = int(radius)  # You may adjust if needed
+if radius < 10:
+    num_points_per_circle = 10
+else:
+    num_points_per_circle = int(radius)  # You may adjust if needed
 executeHeight = float(param_dict['executeHeight'])
 waypointSpeed = float(param_dict['Speed'])  # Default value
 gimbalRotateAngle = -int(90 - math.degrees(math.atan(radius / executeHeight)))
@@ -402,10 +405,8 @@ print(gimbalRotateAngle)
 # === Your original script continues here ===
 
 # Placeholder for actual flight plan logic (keep your logic below)
-if len(center_points) < 20:
-    num_groups = 20
-else: 
-    num_groups = len(center_points)
+
+num_groups = center_points
 latitudes = [start_point[0]]
 longitudes = [start_point[1]]
 group_numbers = [0]  # Start point's group number is 0
@@ -501,5 +502,6 @@ pretty_xml = prettify_xml(placemark)
 with open(output_path, "w", encoding="utf-8") as files:
     files.write(pretty_xml)
     
-
+circle_points_df = df[['PointID', 'Latitude', 'Longitude', 'groupNumber', 'action']]
+circle_points_df.to_csv("/Users/shenkai/Downloads/360_flight_planner-main/circle_points.csv", index=False)
 
