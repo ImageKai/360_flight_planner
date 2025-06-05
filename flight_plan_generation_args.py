@@ -502,6 +502,6 @@ pretty_xml = prettify_xml(placemark)
 with open(output_path, "w", encoding="utf-8") as files:
     files.write(pretty_xml)
     
-circle_points_df = df[['PointID', 'Latitude', 'Longitude', 'groupNumber', 'action']]
-circle_points_df.to_csv("/Users/shenkai/Downloads/360_flight_planner-main/circle_points.csv", index=False)
+#circle_points_df = df[['PointID', 'Latitude', 'Longitude', 'groupNumber', 'action']]
+#circle_points_df.to_csv("/Users/shenkai/Downloads/360_flight_planner-main/circle_points.csv", index=False)
 
